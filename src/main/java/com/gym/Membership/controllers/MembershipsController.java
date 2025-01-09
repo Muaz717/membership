@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/memberships")
@@ -44,9 +45,11 @@ public class MembershipsController {
     }
 
     @PostMapping("/{number}/addVisit")
-    public ResponseEntity<HttpStatus> addVisit(@PathVariable("number")int number,
-                                               BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> addVisit(@PathVariable("number")int number) {
 
+        membershipsService.addVisit(number);
+
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @GetMapping()
@@ -61,6 +64,10 @@ public class MembershipsController {
 
     private Membership convertToMembership(MembershipDTO membershipDTO) {
         return modelMapper.map(membershipDTO, Membership.class);
+    }
+
+    private MembershipDTO convertToMembershipDTO(Membership membership) {
+        return modelMapper.map(membership, MembershipDTO.class);
     }
 }
 

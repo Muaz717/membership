@@ -30,18 +30,12 @@ public class Membership {
     @Column(name = "visits")
     private int visits;
 
-    @NotNull
+
     @ManyToOne
     @JoinColumn(name = "person", referencedColumnName = "name")
     private Person person;
 
     public Membership() {}
-
-    public Membership(LocalDateTime recording_day, int visits, Person person) {
-        this.recording_day = recording_day;
-        this.visits = visits;
-        this.person = person;
-    }
 
     public int getId() {
         return id;
