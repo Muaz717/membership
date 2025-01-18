@@ -13,6 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,22 +47,16 @@ public class MembershipsController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-    @PostMapping("/{number}/addVisit")
-    public ResponseEntity<HttpStatus> addVisit(@PathVariable("number")int number) {
-
-        membershipsService.addVisit(number);
-
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
-
     @GetMapping()
-    public List<Membership> getAll() {
-        return membershipsService.findAll();
+    public List<MembershipDTO> getAll() {
+        return membershipsService.findAll().stream().map(this::convertToMembershipDTO)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{number}")
-    public Optional<Membership> getByNumber(@PathVariable("number") int number) {
-        return membershipsService.findByNumber(number);
+    public Optional<MembershipDTO> getByNumber(@PathVariable("number") int number) {
+        return membershipsService.findByNumber(number).stream().map(this::convertToMembershipDTO)
+                .findAny();
     }
 
     private Membership convertToMembership(MembershipDTO membershipDTO) {
@@ -67,7 +64,16 @@ public class MembershipsController {
     }
 
     private MembershipDTO convertToMembershipDTO(Membership membership) {
-        return modelMapper.map(membership, MembershipDTO.class);
+        MembershipDTO membershipDTO = modelMapper.map(membership, MembershipDTO.class);
+
+        int daysLeft = membershipDTO.getRecording_day().getDayOfYear() + 30 - LocalDateTime.now().getDayOfYear();
+        membershipDTO.setDaysLeft(daysLeft);
+
+
+        LocalDateTime lastDay = membershipDTO.getRecording_day().plusDays(30);
+        membershipDTO.setLastDay(lastDay);
+
+        return membershipDTO;
     }
 }
 

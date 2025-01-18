@@ -25,12 +25,6 @@ public class Membership {
     @Column(name = "recording_day")
     private LocalDateTime recording_day;
 
-    @Min(0)
-    @Max(30)
-    @Column(name = "visits")
-    private int visits;
-
-
     @ManyToOne
     @JoinColumn(name = "person", referencedColumnName = "name")
     private Person person;
@@ -61,14 +55,6 @@ public class Membership {
         this.recording_day = recording_day;
     }
 
-    public int getVisits() {
-        return visits;
-    }
-
-    public void setVisits(int visits) {
-        this.visits = visits;
-    }
-
     public Person getPerson() {
         return person;
     }
@@ -83,7 +69,6 @@ public class Membership {
                 "id=" + id +
                 "number=" + number +
                 ", recording_day=" + recording_day +
-                ", visits=" + visits +
                 ", person=" + person +
                 '}';
     }

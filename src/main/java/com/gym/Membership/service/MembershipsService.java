@@ -39,26 +39,12 @@ public class MembershipsService {
         membershipsRepository.save(membership);
     }
 
-    @Transactional
-    public void addVisit(int number) {
-
-        Optional<Membership> membership = membershipsRepository.findByNumber(number);
-
-        if (membership.isPresent()) {
-            Membership membershipToUpdate = membership.get();
-
-            membershipToUpdate.setVisits(membershipToUpdate.getVisits() + 1);
-
-            membershipsRepository.save(membershipToUpdate);
-        }
-
-    }
-
     private void enrichMembership(Membership membership) {
         membership.setPerson(peopleService.findByName(membership.getPerson().getName()).get());
 
         membership.setRecording_day(LocalDateTime.now());
 
-        membership.setVisits(1);
     }
+
+
 }
