@@ -1,6 +1,7 @@
 package com.gym.Membership.service;
 
 import com.gym.Membership.models.Membership;
+import com.gym.Membership.models.Person;
 import com.gym.Membership.repositories.MembershipsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,10 @@ public class MembershipsService {
 
     @Transactional
     public Optional<Membership> findByNumber(int number) {
-        return membershipsRepository.findByNumber(number);
+
+        Optional<Membership> membership = membershipsRepository.findByNumber(number);
+
+        return membership;
     }
 
     @Transactional
@@ -40,7 +44,7 @@ public class MembershipsService {
     }
 
     private void enrichMembership(Membership membership) {
-        membership.setPerson(peopleService.findByName(membership.getPerson().getName()).get());
+        membership.setOwner(peopleService.findByName(membership.getOwner().getName()).get());
 
         membership.setRecording_day(LocalDateTime.now());
 

@@ -1,9 +1,14 @@
 package com.gym.Membership.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.gym.Membership.models.Person;
+import jakarta.persistence.Transient;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -16,20 +21,30 @@ public class MembershipDTO {
     private int number;
 
     @NotNull
-    private Person person;
+    private PersonDTO owner;
 
+    @JsonIgnore
     private LocalDateTime recording_day;
 
-    private LocalDateTime lastDay;
+    private String firstDay;
+
+    private String lastDay;
 
     private int daysLeft;
 
+    public String getFirstDay() {
+        return firstDay;
+    }
 
-    public LocalDateTime getLastDay() {
+    public void setFirstDay(String firstDay) {
+        this.firstDay = firstDay;
+    }
+
+    public String getLastDay() {
         return lastDay;
     }
 
-    public void setLastDay(LocalDateTime lastDay) {
+    public void setLastDay(String lastDay) {
         this.lastDay = lastDay;
     }
 
@@ -57,11 +72,11 @@ public class MembershipDTO {
         this.number = number;
     }
 
-    public Person getPerson() {
-        return person;
+    public PersonDTO getOwner() {
+        return owner;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setOwner(PersonDTO owner) {
+        this.owner = owner;
     }
 }

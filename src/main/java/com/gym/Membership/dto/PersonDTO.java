@@ -13,7 +13,7 @@ public class PersonDTO {
     @Size(min = 5, max = 100, message = "Name should be between 5 and 100 symbols")
     private String name;
 
-    private List<Membership> memberships;
+    private List<MembershipDTO> memberships;
 
     public String getName() {
         return name;
@@ -23,11 +23,11 @@ public class PersonDTO {
         this.name = name;
     }
 
-    public List<Membership> getMemberships() {
+    public List<MembershipDTO> getMemberships() {
         return memberships;
     }
 
-    public void setMemberships(List<Membership> memberships) {
+    public void setMemberships(List<MembershipDTO> memberships) {
         this.memberships = memberships;
     }
 }

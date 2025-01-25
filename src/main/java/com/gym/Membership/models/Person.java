@@ -22,21 +22,21 @@ public class Person {
     @Size(min = 5, max = 100, message = "Name should be between 5 and 100 symbols")
     private String name;
 
-//    @OneToMany
-//    private List<Membership> memberships;
+    @OneToMany(mappedBy = "owner")
+    private List<Membership> memberships;
 
     public Person() {}
 
-//    public List<Membership> getMemberships() {
-//        return memberships;
-//    }
-//
-//    public void setMemberships(List<Membership> memberships) {
-//        this.memberships = memberships;
-//    }
-
     public Person(String name) {
         this.name = name;
+    }
+
+    public List<Membership> getMemberships() {
+        return memberships;
+    }
+
+    public void setMemberships(List<Membership> memberships) {
+        this.memberships = memberships;
     }
 
     public int getId() {

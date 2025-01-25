@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -17,19 +18,25 @@ public class Membership {
     @Column(name = "id")
     private int id;
 
+
     @Column(name = "number")
     @Min(1)
     @Max(100)
+    @NotNull(message = "Number should not be 0")
     private int number;
 
     @Column(name = "recording_day")
     private LocalDateTime recording_day;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "person", referencedColumnName = "name")
-    private Person person;
+    private Person owner;
 
     public Membership() {}
+
+    public Membership(int number) {
+        this.number = number;
+    }
 
     public int getId() {
         return id;
@@ -55,12 +62,12 @@ public class Membership {
         this.recording_day = recording_day;
     }
 
-    public Person getPerson() {
-        return person;
+    public Person getOwner() {
+        return owner;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setOwner(Person person) {
+        this.owner = person;
     }
 
     @Override
@@ -69,7 +76,7 @@ public class Membership {
                 "id=" + id +
                 "number=" + number +
                 ", recording_day=" + recording_day +
-                ", person=" + person +
+                ", person=" + owner +
                 '}';
     }
 }
